@@ -10,18 +10,14 @@
         "date_of_travel": "2025-09-16T14:30:00Z",
         "train": {
           "train_id": "bacs",
-          "train_no": 1234,
+          "train_no": "1234",
           "seats": [
             [0,0,0,0,0,0],
             [0,0,0,0,0,0],
             [0,0,0,0,0,0],
             [0,0,0,0,0,0]
           ],
-          "station": {
-            "Dhaka": "14:30:00",
-            "BimanBandar": "15:40:00",
-            "Sh Monsur Ali": "06:30:00"
-          }
+          "stations":["Bangalore","Jaipur","Delhi"]
         }
       }
     ]

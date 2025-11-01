@@ -8,6 +8,7 @@ import org.example.entities.User;
 import org.example.services.UserBookingService;
 import org.example.util.UserServiceUtil;
 
+import java.io.IOException;
 import java.sql.Time;
 import java.util.*;
 
@@ -22,8 +23,8 @@ public class App {
 
         try{
             userBookingService = new UserBookingService();
-        }catch (Exception e){
-            System.err.println("Error in UserBookingService");
+        }catch(IOException ex){
+            System.out.println("There is something wrong");
             return;
         }
 
@@ -53,11 +54,9 @@ public class App {
                     System.out.println("Enter Your Password For Login: ");
                     String passwordToLogin = sc.next();
                     User userToLogin = new User(nameToLogin,passwordToLogin, UserServiceUtil.hashPassword(passwordToLogin),new ArrayList<>(), UUID.randomUUID().toString());
-
                     try{
                         userBookingService = new UserBookingService(userToLogin);
-                        userBookingService.loginUser();
-                    }catch (Exception e){
+                    }catch (IOException e){
                         return;
                     }
                     break;
@@ -80,6 +79,39 @@ public class App {
                     }
                     System.out.println("Select a train by typing 1,2,3...");
                     trainSelectedForBooking = trains.get(sc.nextInt());
+                    break;
+                case 5:
+                    System.out.println("Select a seat out of these seats");
+                    List<List<Integer>> seats = userBookingService.fetchSeats(trainSelectedForBooking);
+                    for (List<Integer> row: seats){
+                        for (Integer val: row){
+                            System.out.print(val+" ");
+                        }
+                        System.out.println();
+                    }
+                    System.out.println("Select the seat by typing the row and column");
+                    System.out.println("Enter the row");
+                    int row = sc.nextInt();
+                    System.out.println("Enter the column");
+                    int col = sc.nextInt();
+                    System.out.println("Booking your seat....");
+                    Boolean booked = userBookingService.bookTrainSeat(trainSelectedForBooking, row, col);
+                    if(booked.equals(Boolean.TRUE)){
+                        System.out.println("Booked! Enjoy your journey");
+                    }else{
+                        System.out.println("Can't book this seat");
+                    }
+                    break;
+
+                case 6:
+                    System.out.println("Enter your ticket id to cancel booking");
+                    String ticketId = sc.next();
+                    Boolean canceled = userBookingService.cancelBooking(ticketId);
+                    if(canceled.equals(Boolean.TRUE)){
+                        System.out.println("Booking canceled successfully");
+                    }else{
+                        System.out.println("Couldn't cancel your booking");
+                    }
                     break;
                 default:
                     break;

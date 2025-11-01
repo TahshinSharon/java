@@ -1,5 +1,7 @@
 package org.example.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Date;
 
 public class Ticket {
@@ -7,6 +9,7 @@ public class Ticket {
     private String userId;
     private String source;
     private String destination;
+    @JsonProperty("date_of_travel")
     private String dateOfTravel;
     private Train train;
 
